@@ -1,0 +1,56 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>rxjstalk</title>
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+
+  <!-- build:js scripts/vendor/modernizr.js -->
+  <script src="/bower_components/modernizr/modernizr.js"></script>
+  <!-- endbuild -->
+</head>
+<body>
+<div class="chat panel panel-default">
+  <div class="panel-heading chat__controls">
+    <div class="chat__control glyphicon glyphicon-ban-circle js-disconnect"></div>
+    <div class="chat__control glyphicon glyphicon-ok-circle js-connect"></div>
+    <div class="chat__control glyphicon glyphicon-hand-down js-poke"></div>
+  </div>
+  <div class="panel-body chat__history js-history">
+  </div>
+  <div class="panel-footer">
+    <form>
+      <input type="text" name="message" class="js-input"/>
+      <button name="submit" class="js-submit">Submit</button>
+    </form>
+  </div>
+</div>
+
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/rxjs/dist/rx.all.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+
+<!-- build:js scripts/main.js -->
+<!--<script src="scripts/rxchat/main.js"></script>-->
+<script src="scripts/vanillachat/main.js"></script>
+
+<!-- endbuild -->
+</body>
+</html>
