@@ -14,14 +14,12 @@ const requestStream$ = Rx.Observable
 
 const responseStream$ = requestStream$
   .switchMap(() => Rx.Observable.fromPromise($.getJSON(CHAT_URL)))
-  .retry(MAX_RETRIES);
+  .retry(MAX_RETRIES)
+  .map(data => data.value.joke)
+  .takeUntil(disconnectClickStream$);
 
-const subscription = responseStream$
-  .map(jokeData => jokeData.value.joke)
-  .subscribe(msg => renderMessage(msg));
+responseStream$.subscribe(msg => renderMessage(msg));
 
 function renderMessage(msg) {
   messageHistory.append(`<div class="chat__message"><b>Him:</b> ${msg}</div>`);
 }
-
-disconnectClickStream$.subscribe(() => subscription.dispose());

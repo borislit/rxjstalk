@@ -5,7 +5,8 @@ const disconnectButton = $('.js-disconnect');
 const CHAT_URL = 'http://api.icndb.com/jokes/random';
 const MAX_RETRIES = 3;
 
-let xhr;
+let xhr = null,
+  token = null;
 
 function fetchMessages() {
 
@@ -14,9 +15,20 @@ function fetchMessages() {
   }
 
   xhr = $.getJSON(CHAT_URL)
-        .always(() => xhr = null);
+    .always(() => xhr = null);
 
   return xhr;
+
+}
+
+function renderMessage(msg) {
+  messageHistory.append(`<div class="chat__message"><b>Him:</b> ${msg}</div>`);
+}
+
+function updateMessagesList() {
+  retry(fetchMessages, MAX_RETRIES)
+    .then((data) => data.value.joke)
+    .then(renderMessage);
 
 }
 
@@ -29,19 +41,8 @@ function retry(fn, maxRetries) {
   });
 }
 
-function updateMessagesList() {
-  retry(fetchMessages, MAX_RETRIES)
-    .then((data) => data.value.joke)
-    .then(renderMessage);
-
-}
-
 function pollMessages() {
   return setInterval(updateMessagesList, 4000);
-}
-
-function renderMessage(msg) {
-  messageHistory.append(`<div class="chat__message"><b>Him:</b> ${msg}</div>`);
 }
 
 function onPoke() {
@@ -50,10 +51,11 @@ function onPoke() {
 
 pokeHistory.click(onPoke);
 
-let token = pollMessages();
-
 disconnectButton.click(() => {
   xhr && xhr.abort();
   pokeHistory.off('click', onPoke);
   clearInterval(token)
 });
+
+token = pollMessages();
+
