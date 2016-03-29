@@ -33,6 +33,10 @@
       "node": true,
       "browser": true
     },
+    "globals": {
+      "$": true,
+      "Rx": true
+    },
     "rules": {
       "quotes": [
         2,

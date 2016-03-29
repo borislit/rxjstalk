@@ -1,3 +1,5 @@
+'use strict';
+
 const pokeHistory = $('.js-poke');
 const messageHistory = $('.js-history');
 const disconnectButton = $('.js-disconnect');
@@ -10,7 +12,7 @@ let xhr = null,
 
 function fetchMessages() {
 
-  if (xhr && xhr.readyState != 4) {
+  if (xhr && xhr.readyState !== 4) {
     xhr.abort();
   }
 
@@ -25,13 +27,6 @@ function renderMessage(msg) {
   messageHistory.append(`<div class="chat__message"><b>Him:</b> ${msg}</div>`);
 }
 
-function updateMessagesList() {
-  retry(fetchMessages, MAX_RETRIES)
-    .then((data) => data.value.joke)
-    .then(renderMessage);
-
-}
-
 function retry(fn, maxRetries) {
   return fn().fail(err => {
     if (maxRetries <= 0) {
@@ -39,6 +34,13 @@ function retry(fn, maxRetries) {
     }
     return retry(fn, maxRetries - 1);
   });
+}
+
+function updateMessagesList() {
+  retry(fetchMessages, MAX_RETRIES)
+    .then((data) => data.value.joke)
+    .then(renderMessage);
+
 }
 
 function pollMessages() {
@@ -52,9 +54,11 @@ function onPoke() {
 pokeHistory.click(onPoke);
 
 disconnectButton.click(() => {
-  xhr && xhr.abort();
+  if (xhr) {
+    xhr.abort();
+  }
   pokeHistory.off('click', onPoke);
-  clearInterval(token)
+  clearInterval(token);
 });
 
 token = pollMessages();
