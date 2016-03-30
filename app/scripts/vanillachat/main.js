@@ -43,23 +43,27 @@ function updateMessagesList() {
 
 }
 
-function pollMessages() {
-  return setInterval(updateMessagesList, 4000);
-}
-
 function onPoke() {
   updateMessagesList();
 }
 
-pokeHistory.click(onPoke);
-
-disconnectButton.click(() => {
+function teardown() {
   if (xhr) {
     xhr.abort();
+    xhr = null;
   }
   pokeHistory.off('click', onPoke);
   clearInterval(token);
-});
+  token = null;
+}
+
+function pollMessages() {
+  return setInterval(updateMessagesList, 4000);
+}
+
+pokeHistory.click(onPoke);
+
+disconnectButton.click(teardown);
 
 token = pollMessages();
 

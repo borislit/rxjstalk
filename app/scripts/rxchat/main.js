@@ -22,7 +22,7 @@ const responseStream$ = requestStream$
   .map(data => data.value.joke)
   .takeUntil(disconnectClickStream$);
 
-responseStream$.subscribe(msg => renderMessage(msg));
+responseStream$.subscribe(renderMessage);
 
 function renderMessage(msg) {
   messageHistory.append(`<div class="chat__message"><b>Him:</b> ${msg}</div>`);
